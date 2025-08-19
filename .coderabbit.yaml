@@ -1,0 +1,17 @@
+reviews:
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - ".*" # Matches all branches using regex
+  review_status: false # Disables the "Review skipped" status message
+
+path_filters:
+  - "!**/*.md" # Excludes all Markdown files from reviews
+
+ai_reviewer:
+  enabled: true
+  model: gpt-4o
+  summary: true
+  code_suggestions: true
+  approvals: false

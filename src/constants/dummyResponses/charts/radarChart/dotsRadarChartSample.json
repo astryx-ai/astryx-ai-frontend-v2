@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 📱 Mobile App Usage - H1 2025\n\n## 📊 Dots Radar Chart: Average Monthly Screen Time by App Category\n\n```chart { \"type\": \"dots-radar-chart\", \"title\": \"Average Screen Time by App Category (Jan–Jun 2025)\", \"description\": \"Dots radar chart showing average screen time per month (in hours) for popular app categories in H1 2025.\", \"dataKey\": \"hours\", \"color\": \"hsl(250, 65%, 50%)\", \"legend\": false, \"data\": [ { \"category\": \"Social Media\", \"hours\": 52 }, { \"category\": \"Streaming\", \"hours\": 38 }, { \"category\": \"Gaming\", \"hours\": 45 }, { \"category\": \"Productivity\", \"hours\": 27 }, { \"category\": \"Health & Fitness\", \"hours\": 19 }, { \"category\": \"News\", \"hours\": 21 } ] } ```\n\n---\n\n## 🔍 Insight\n- Social media apps dominated screen time in H1 2025, averaging **52 hours per month**.\n- Gaming and streaming also remained strong, while productivity apps trailed behind.\n\n---\n\n*Powered by Astryx AI – Visualizing digital habits.*",
+    "chatsummary": "A dots radar chart comparing average monthly screen time across app categories from Jan–Jun 2025."
+  },
+  "metadata": {
+    "run_id": "app-usage-dotsRadarChart-h1-2025",
+    "feedback_tokens": []
+  }
+}

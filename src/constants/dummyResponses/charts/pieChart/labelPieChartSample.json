@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# ☁️ Cloud Spend Distribution - Q2 2025\n\n## 🥧 Pie Chart with Labels: Spend by Service\n\n```chart {\n  \"type\": \"label-pie-chart\",\n  \"title\": \"Cloud Spend by Service (%), Q2 2025\",\n  \"description\": \"Pie chart showing percentage distribution of cloud spend across services.\",\n  \"dataKey\": \"percentage\",\n  \"nameKey\": \"service\",\n  \"label\": true,\n  \"legend\": false,\n  \"data\": [\n    {\n      \"service\": \"Compute\",\n      \"percentage\": 40,\n      \"fill\": \"#4CAF50\"\n    },\n    {\n      \"service\": \"Storage\",\n      \"percentage\": 25,\n      \"fill\": \"#2196F3\"\n    },\n    {\n      \"service\": \"Database\",\n      \"percentage\": 15,\n      \"fill\": \"#FFC107\"\n    },\n    {\n      \"service\": \"Networking\",\n      \"percentage\": 10,\n      \"fill\": \"#FF5722\"\n    },\n    {\n      \"service\": \"Security\",\n      \"percentage\": 10,\n      \"fill\": \"#9C27B0\"\n    }\n  ]\n} ```\n\n---\n\n## 🔍 Insights\n- **Compute** dominates at 40% of total spend.\n- **Storage** and **Database** services follow.\n- **Networking** and **Security** remain equal and lean in cost.\n\n---\n\n*Powered by Astryx AI – Visualizing cloud economics with clarity.*",
+    "chatsummary": "A labeled pie chart breaks down cloud service spend in Q2 2025, with Compute leading at 40% and each slice color-coded."
+  },
+  "metadata": {
+    "run_id": "pie-cloud-spend-by-service-q2-2025",
+    "feedback_tokens": []
+  }
+}

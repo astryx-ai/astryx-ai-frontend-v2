@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 💳 Customer Subscription Plans - Q2 2025\n\n## 🍩 Donut Pie Chart with Center Text: Customer Counts\n\n```chart {\n  \"type\": \"donut-pie-chart\",\n  \"title\": \"Customer Plans (Count), Q2 2025\",\n  \"description\": \"Donut pie chart showing number of customers by subscription plan.\",\n  \"dataKey\": \"customers\",\n  \"nameKey\": \"plan\",\n  \"legend\": true,\n \"data\": [\n    {\n      \"plan\": \"Basic\",\n      \"customers\": 4500,\n      \"fill\": \"#42A5F5\"\n    },\n    {\n      \"plan\": \"Pro\",\n      \"customers\": 3000,\n      \"fill\": \"#66BB6A\"\n    },\n    {\n      \"plan\": \"Enterprise\",\n      \"customers\": 1500,\n      \"fill\": \"#FFA726\"\n    },\n    {\n      \"plan\": \"Trial\",\n      \"customers\": 1000,\n      \"fill\": \"#AB47BC\"\n    }\n  ]\n} ```\n\n---\n\n## 🔍 Insights\n- **Basic Plan** has the largest customer base (4,500 users).\n- **Pro Plan** serves 3,000 users — a strong mid-tier option.\n- **Enterprise** and **Trial** are smaller segments but strategically valuable.\n\n---\n\n*Powered by Astryx AI – Customer analytics visualized.*",
+    "chatsummary": "A donut pie chart shows actual customer counts by subscription plan for Q2 2025, with center text displaying the total."
+  },
+  "metadata": {
+    "run_id": "donut-subscription-customers-q2-2025",
+    "feedback_tokens": []
+  }
+}

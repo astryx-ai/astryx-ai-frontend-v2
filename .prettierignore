@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.production.local
+.env.development.local
+package-lock.json
+*.log
+.DS_Store
+coverage/
+public/
+*.svg
+*.html 

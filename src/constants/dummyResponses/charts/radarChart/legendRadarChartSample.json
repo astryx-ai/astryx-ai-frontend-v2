@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 📊 Stock Market Sector Performance - H1 2025\n\n## 🕸️ Radar Chart: S&P 500 vs NASDAQ Sector Returns\n\n```chart { \"type\": \"legend-radar-chart\", \"title\": \"Sector Performance: S&P 500 vs NASDAQ (H1 2025)\", \"description\": \"Radar chart comparing average percentage returns across key sectors for the S&P 500 and NASDAQ indices in H1 2025.\", \"dataKey\": \"return\", \"groupedKeys\": [\"S&P 500\", \"NASDAQ\"], \"color\": [\"hsl(210, 70%, 50%)\", \"hsl(340, 65%, 50%)\"], \"legend\": true, \"data\": [ { \"sector\": \"Technology\", \"S&P 500\": 14.2, \"NASDAQ\": 18.7 }, { \"sector\": \"Healthcare\", \"S&P 500\": 9.3, \"NASDAQ\": 7.5 }, { \"sector\": \"Financials\", \"S&P 500\": 5.6, \"NASDAQ\": 4.2 }, { \"sector\": \"Consumer Discretionary\", \"S&P 500\": 11.0, \"NASDAQ\": 13.4 }, { \"sector\": \"Energy\", \"S&P 500\": 3.8, \"NASDAQ\": 2.9 }, { \"sector\": \"Utilities\", \"S&P 500\": 4.5, \"NASDAQ\": 3.1 } ] } ```\n\n---\n\n## 🔍 Insight\n- **Technology** led growth in both indices, with **NASDAQ outperforming** across tech-heavy sectors.\n- **Energy** and **Utilities** showed modest returns, reflecting a shift toward growth sectors.\n\n---\n\n*Powered by Astryx AI – Visualizing financial market dynamics.*",
+    "chatsummary": "A radar chart comparing S&P 500 and NASDAQ sector returns in H1 2025, showing tech-led growth and index divergence."
+  },
+  "metadata": {
+    "run_id": "stock-sector-performance-radarChart-h1-2025",
+    "feedback_tokens": []
+  }
+}

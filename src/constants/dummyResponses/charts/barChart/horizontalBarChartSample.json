@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🌐 Global Cloud Market Share Analysis - Q1 2025\n\n## ☁️ Cloud Service Provider Market Share\n\n```chart { \"type\": \"horizontal-bar-chart\", \"title\": \"Global Cloud Market Share (Q1 2025)\", \"description\": \"Market share of leading cloud providers worldwide\", \"dataKey\": \"marketShare\", \"xAxisKey\": \"provider\", \"height\": 400, \"layout\": \"horizontal\", \"color\": \"hsl(207, 90%, 54%)\", \"data\": [ { \"provider\": \"AWS\", \"marketShare\": 31.2 }, { \"provider\": \"Azure\", \"marketShare\": 25.7 }, { \"provider\": \"Google Cloud\", \"marketShare\": 11.6 }, { \"provider\": \"Alibaba Cloud\", \"marketShare\": 7.9 }, { \"provider\": \"IBM Cloud\", \"marketShare\": 4.3 }, { \"provider\": \"Oracle Cloud\", \"marketShare\": 3.5 }, { \"provider\": \"Tencent Cloud\", \"marketShare\": 2.9 } ] } ```\n\n---\n\n## 🔍 Insights\n- **AWS** remains the market leader but faces increasing pressure from **Azure**.\n- **Google Cloud** continues expanding through AI-integrated offerings.\n- **Alibaba** and **Tencent** dominate Asia-Pacific but have limited global expansion.\n\n---\n\n*Powered by Astryx AI - Deep visibility into the global cloud economy*",
+    "chatsummary": "A horizontal bar chart visualizes global cloud provider market share in Q1 2025, highlighting AWS, Azure, and Google Cloud as dominant players."
+  },
+  "metadata": {
+    "run_id": "cloud-market-q1-2025",
+    "feedback_tokens": []
+  }
+}

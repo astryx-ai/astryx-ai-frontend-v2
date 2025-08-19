@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🌐 Cloud Adoption Trend Analysis - Q1 2025\n\n## ☁️ Cloud Adoption Rate\n\n```chart { \"type\": \"linear-area-chart\", \"title\": \"Cloud Adoption Trend (Q1 2025)\", \"description\": \"Linear area chart visualizing the adoption rate of cloud services in Q1 2025.\", \"dataKey\": \"adoptionRate\", \"data\": [ { \"month\": \"January\", \"adoptionRate\": 0.60 }, { \"month\": \"February\", \"adoptionRate\": 0.32 }, { \"month\": \"March\", \"adoptionRate\": 0.70 }, { \"month\": \"April\", \"adoptionRate\": 0.73 }, { \"month\": \"May\", \"adoptionRate\": 0.55 }, { \"month\": \"June\", \"adoptionRate\": 0.80 } ], \"color\": \"hsl(120, 60%, 40%)\" } ```\n\n---\n\n## 🔍 Insights\n- **Adoption rate** shows steady growth over the first half of 2025, reflecting increasing trust in cloud platforms.\n- Significant spikes seen in **March** and **June**, potentially due to new feature announcements and industry adoption.\n\n---\n\n*Powered by Astryx AI - Analyzing cloud adoption trends.*",
+    "chatsummary": "A linear area chart representing cloud adoption trends from January to June 2025, with consistent growth in adoption rates over the quarter."
+  },
+  "metadata": {
+    "run_id": "cloud-adoption-q1-2025",
+    "feedback_tokens": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 😊 Employee Satisfaction - H1 2025\n\n## 📊 Radar Chart: Average Scores by Department\n\n```chart { \"type\": \"no-grid-radar-chart\", \"title\": \"Employee Satisfaction Scores by Department (H1 2025)\", \"description\": \"Radar chart showing average employee satisfaction scores (out of 10) across departments. No grid lines shown.\", \"dataKey\": \"score\", \"color\": \"hsl(200, 70%, 50%)\", \"legend\": false, \"grid\": false, \"data\": [ { \"department\": \"Engineering\", \"score\": 8.6 }, { \"department\": \"Marketing\", \"score\": 7.9 }, { \"department\": \"Sales\", \"score\": 7.4 }, { \"department\": \"HR\", \"score\": 8.1 }, { \"department\": \"Finance\", \"score\": 7.2 }, { \"department\": \"Support\", \"score\": 8.0 } ] } ```\n\n---\n\n## 🔍 Insight\n- **Engineering** had the highest satisfaction scores, followed closely by **HR** and **Support**.\n- **Finance and Sales** showed room for improvement.\n\n---\n\n*Powered by Astryx AI – Visualizing organizational health.*",
+    "chatsummary": "A radar chart displaying average employee satisfaction by department in H1 2025, without grid lines."
+  },
+  "metadata": {
+    "run_id": "employee-satisfaction-radarChart-nogrid-h1-2025",
+    "feedback_tokens": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# ❗ Monthly API Error Rate - H1 2025\n\n## 📉 Dots Line Chart: Error Rate Fluctuations\n\n```chart { \"type\": \"dot-line-chart\", \"title\": \"API Error Rate (%), Jan–Jun 2025\", \"description\": \"Line chart with dots showing monthly API error rate as a percentage.\", \"dataKey\": \"errorRate\", \"color\": \"hsl(10, 80%, 50%)\", \"legend\": false, \"dots\": true, \"data\": [ { \"month\": \"January\", \"errorRate\": 2.4 }, { \"month\": \"February\", \"errorRate\": 3.1 }, { \"month\": \"March\", \"errorRate\": 1.8 }, { \"month\": \"April\", \"errorRate\": 2.9 }, { \"month\": \"May\", \"errorRate\": 2.2 }, { \"month\": \"June\", \"errorRate\": 3.1 } ] } ```\n\n---\n\n## 🔍 Observations\n- Lowest error rate occurred in **March** (1.8%).\n- Highest error rate recorded in **June** (3.1%).\n- The chart shows significant variability — key for ops monitoring.\n\n---\n\n*Powered by Astryx AI – Operational trends visualized.*",
+    "chatsummary": "A dots line chart shows monthly API error rate (%) for H1 2025, highlighting both low and high fluctuations across months."
+  },
+  "metadata": {
+    "run_id": "dots-line-errorrate-h1-2025",
+    "feedback_tokens": []
+  }
+}

@@ -1,0 +1,432 @@
+/* Markdown styles */
+
+/* Headings */
+.markdown-content h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--black-100);
+  border-bottom: 1px solid var(--black-10);
+  padding-bottom: 0.5rem;
+}
+
+.dark .markdown-content h1 {
+  color: var(--white-100);
+  border-bottom-color: var(--white-20);
+}
+
+/* Remove border from h1 inside code blocks */
+.markdown-content pre h1 h2 h3 {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.markdown-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--black-90);
+}
+
+.dark .markdown-content h2 {
+  color: var(--white-95);
+}
+
+.markdown-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--black-85);
+}
+
+.dark .markdown-content h3 {
+  color: var(--white-90);
+}
+
+.markdown-content h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--black-80);
+}
+
+.dark .markdown-content h4 {
+  color: var(--white-85);
+}
+
+.markdown-content h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  color: var(--black-70);
+}
+
+.dark .markdown-content h5 {
+  color: var(--white-80);
+}
+
+.markdown-content h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  color: var(--black-60);
+}
+
+.dark .markdown-content h6 {
+  color: var(--white-70);
+}
+
+/* Text formatting */
+.markdown-content p {
+  line-height: 1.6;
+  color: var(--black-90);
+  font-size: 0.95rem;
+}
+
+.dark .markdown-content p {
+  color: var(--white-90);
+}
+
+.markdown-content strong {
+  font-weight: 600;
+  color: var(--black-100);
+}
+
+.dark .markdown-content strong {
+  color: var(--white-100);
+}
+
+.markdown-content em {
+  font-style: italic;
+  color: var(--black-80);
+}
+
+.dark .markdown-content em {
+  color: var(--white-85);
+}
+
+.markdown-content del {
+  text-decoration: line-through;
+  color: var(--black-60);
+  opacity: 0.8;
+}
+
+.dark .markdown-content del {
+  color: var(--white-70);
+}
+
+/* Lists */
+.markdown-content ul,
+.markdown-content ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+  color: var(--black-90);
+}
+
+.dark .markdown-content ul,
+.dark .markdown-content ol {
+  color: var(--white-90);
+}
+
+.markdown-content li {
+  margin-bottom: 0.375rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.markdown-content ul li {
+  list-style-type: disc;
+}
+
+.markdown-content ol li {
+  list-style-type: decimal;
+}
+
+/* Nested lists */
+.markdown-content ul ul,
+.markdown-content ol ol,
+.markdown-content ul ol,
+.markdown-content ol ul {
+  margin: 0.375rem 0 0.375rem 1.5rem;
+}
+
+.markdown-content ul ul li {
+  list-style-type: circle;
+}
+
+.markdown-content ul ul ul li {
+  list-style-type: square;
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+  border-left: 3px solid var(--color-blue-astryx);
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--black-05);
+  border-radius: 0.375rem;
+  font-style: italic;
+  color: var(--black-80);
+}
+
+.dark .markdown-content blockquote {
+  background-color: var(--black-80);
+  color: var(--white-85);
+}
+
+.markdown-content blockquote p {
+  margin-bottom: 0;
+}
+
+/* Nested blockquotes */
+.markdown-content blockquote blockquote {
+  margin: 0.75rem 0;
+  border-left-color: var(--black-40);
+  background-color: var(--black-05);
+}
+
+.dark .markdown-content blockquote blockquote {
+  border-left-color: var(--white-40);
+  background-color: var(--white-15);
+}
+
+/* Horizontal rule */
+.markdown-content hr {
+  border: none;
+  height: 2px;
+  background: var(--black-10);
+  margin: 2rem 0;
+}
+
+.dark .markdown-content hr {
+  background: var(--white-20);
+}
+
+/* Code blocks */
+.markdown-content .code-block-container {
+  position: relative;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid var(--black-10);
+  background-color: var(--black-03);
+  overflow: hidden;
+}
+
+.dark .markdown-content .code-block-container {
+  background-color: var(--white-05);
+  border-color: var(--white-20);
+}
+
+.markdown-content .code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  background-color: var(--black-05);
+  border-bottom: 1px solid var(--black-10);
+  font-size: 0.75rem;
+  color: var(--black-70);
+}
+
+.dark .markdown-content .code-block-header {
+  background-color: var(--white-10);
+  border-bottom-color: var(--white-20);
+  color: var(--white-80);
+}
+
+.markdown-content .code-language {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--black-90);
+}
+
+.dark .markdown-content .code-language {
+  color: var(--white-90);
+}
+
+.markdown-content .copy-button {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background-color: var(--black-10);
+  border: 1px solid var(--black-20);
+  border-radius: 0.375rem;
+  color: var(--black-90);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dark .markdown-content .copy-button {
+  background-color: var(--white-10);
+  border-color: var(--white-20);
+  color: var(--white-90);
+}
+
+.markdown-content .copy-button:hover {
+  background-color: var(--black-20);
+  border-color: var(--black-30);
+}
+
+.dark .markdown-content .copy-button:hover {
+  background-color: var(--white-20);
+  border-color: var(--white-30);
+}
+
+.markdown-content .copy-button.copied {
+  background-color: var(--color-blue-astryx);
+  border-color: var(--color-blue-astryx);
+  color: white;
+}
+
+.markdown-content .copy-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.markdown-content pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  background: none;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--black-90);
+}
+
+.dark .markdown-content pre {
+  color: var(--white-90);
+}
+
+.markdown-content pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  color: inherit;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  background-color: transparent;
+}
+
+.dark .markdown-content pre code {
+  background-color: transparent;
+}
+
+/* Inline code */
+.markdown-content code {
+  background-color: var(--black-05);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--black-90);
+  border: 1px solid var(--black-0);
+}
+
+.dark .markdown-content code {
+  color: var(--white-90);
+  background-color: var(--white-20);
+  border-color: var(--white-10);
+}
+
+/* Tables */
+.markdown-content table {
+  width: 100%;
+  margin: 1rem 0;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--black-10);
+  text-align: left;
+}
+
+.dark .markdown-content th,
+.dark .markdown-content td {
+  border-color: var(--white-20);
+}
+
+.markdown-content th {
+  background-color: var(--black-05);
+  font-weight: 600;
+  color: var(--black-100);
+}
+
+.dark .markdown-content th {
+  background-color: var(--white-10);
+  color: var(--white-100);
+}
+
+.markdown-content td {
+  color: var(--black-80);
+  background-color: var(--white-100);
+}
+
+.dark .markdown-content td {
+  color: var(--white-85);
+  background-color: var(--black-95);
+}
+
+.markdown-content tr:nth-child(even) td {
+  background-color: var(--black-02);
+}
+
+.dark .markdown-content tr:nth-child(even) td {
+  background-color: var(--black-90);
+}
+
+/* Links */
+.markdown-content a {
+  color: var(--color-blue-astryx);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.markdown-content a:hover {
+  border-bottom-color: var(--color-blue-astryx);
+}
+
+.dark .markdown-content a {
+  color: #60a5fa;
+}
+
+.dark .markdown-content a:hover {
+  color: #93c5fd;
+}
+
+/* Images */
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  border: 1px solid var(--black-10);
+}
+
+.dark .markdown-content img {
+  border-color: var(--white-20);
+}
+
+/* First element margin reset */
+.markdown-content > *:first-child {
+  margin-top: 0;
+}
+
+/* Last element margin reset */
+.markdown-content > *:last-child {
+  margin-bottom: 0;
+}

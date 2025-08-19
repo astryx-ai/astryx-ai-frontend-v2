@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 💸 Global Cloud Infrastructure Spending - H1 2025\n\n## 📊 Line Chart: Monthly Spending Trend\n\n```chart { \"type\": \"line-chart\", \"title\": \"Cloud Infrastructure Spending (Jan–Jun 2025)\", \"description\": \"Line chart showing monthly global cloud infrastructure spending in billions USD.\", \"dataKey\": \"spending\", \"color\": \"hsl(220, 75%, 55%)\", \"legend\": false, \"data\": [ { \"month\": \"January\", \"spending\": 9.4 }, { \"month\": \"February\", \"spending\": 13.1 }, { \"month\": \"March\", \"spending\": 10.9 }, { \"month\": \"April\", \"spending\": 14.3 }, { \"month\": \"May\", \"spending\": 15.0 }, { \"month\": \"June\", \"spending\": 15.7 } ] } ```\n\n---\n\n## 🔍 Insight\n- Global cloud spending increased consistently in H1 2025, with a **26% growth** from January to June.\n\n---\n\n*Powered by Astryx AI – Visualizing cloud investment patterns.*",
+    "chatsummary": "A single-line chart tracking global cloud infrastructure spending from Jan–Jun 2025, showing steady monthly growth."
+  },
+  "metadata": {
+    "run_id": "cloud-spending-linechart-h1-2025",
+    "feedback_tokens": []
+  }
+}

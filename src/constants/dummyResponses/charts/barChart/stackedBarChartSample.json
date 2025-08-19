@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🏗️ Cloud Cost Breakdown by Region - Q2 2025\n\n## 📊 Stacked Bar Chart: CapEx vs OpEx by Region\n\n```chart { \"type\": \"stacked-bar-chart\", \"title\": \"Q2 2025 CapEx vs OpEx by Region\", \"description\": \"Stacked bar chart comparing capital and operating expenses by region\", \"xAxisKey\": \"region\", \"height\": 420, \"groupedKeys\": [\"CapEx\", \"OpEx\"], \"color\": [\"hsl(15, 90%, 55%)\", \"hsl(210, 80%, 60%)\"], \"legend\": true, \"data\": [ { \"region\": \"North America\", \"CapEx\": 5.8, \"OpEx\": 4.9 }, { \"region\": \"Europe\", \"CapEx\": 4.3, \"OpEx\": 3.7 }, { \"region\": \"Asia-Pacific\", \"CapEx\": 3.9, \"OpEx\": 3.5 }, { \"region\": \"South America\", \"CapEx\": 2.1, \"OpEx\": 1.8 }, { \"region\": \"Middle East\", \"CapEx\": 1.7, \"OpEx\": 1.5 } ] } ```\n\n---\n\n## 🔍 Observations\n- **North America** incurs the highest costs overall.\n- **Europe** and **Asia-Pacific** show balanced CapEx/OpEx profiles.\n\n---\n\n*Powered by Astryx AI – Regional financial insights simplified*",
+    "chatsummary": "Stacked bar chart comparing CapEx and OpEx in Q2 2025 across major global regions. North America leads in both categories."
+  },
+  "metadata": {
+    "run_id": "regional-costs-stacked-q2-2025",
+    "feedback_tokens": []
+  }
+}

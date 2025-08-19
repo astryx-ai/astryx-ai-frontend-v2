@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🌐 Global Cloud Latency Trends - H1 2025\n\n## 📉 Linear Line Chart: Average Monthly Latency\n\n```chart { \"type\": \"linear-line-chart\", \"title\": \"Average Global Cloud Latency (ms) - Jan to Jun 2025\", \"description\": \"Line chart showing fluctuations in average cloud latency in milliseconds over six months.\", \"dataKey\": \"latency\", \"color\": \"hsl(340, 70%, 50%)\", \"legend\": false, \"data\": [ { \"month\": \"January\", \"latency\": 85 }, { \"month\": \"February\", \"latency\": 152 }, { \"month\": \"March\", \"latency\": 60 }, { \"month\": \"April\", \"latency\": 138 }, { \"month\": \"May\", \"latency\": 141 }, { \"month\": \"June\", \"latency\": 150 } ] } ```\n\n---\n\n## 🔍 Observations\n- Latency peaked in **February** and **June**.\n- Lowest latency recorded in **March** (60ms), possibly due to network upgrades.\n\n---\n\n*Powered by Astryx AI – Performance trend analysis at global scale.*",
+    "chatsummary": "A linear line chart visualizing monthly changes in global cloud latency for H1 2025, showing both increases and decreases."
+  },
+  "metadata": {
+    "run_id": "linear-line-latency-q1q2-2025",
+    "feedback_tokens": []
+  }
+}

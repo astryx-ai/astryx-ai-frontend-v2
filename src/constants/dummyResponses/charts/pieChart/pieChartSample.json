@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🧁 API Error Type Distribution - H1 2025\n\n## 🥧 Pie Chart: Error Types Breakdown\n\n```chart {\n  \"type\": \"pie-chart\",\n  \"title\": \"API Error Types (%), Jan–Jun 2025\",\n  \"description\": \"Pie chart showing percentage distribution of different API error types.\",\n  \"dataKey\": \"percentage\",\n  \"nameKey\": \"errorType\",\n  \"data\": [\n    {\n      \"errorType\": \"Timeout\",\n      \"percentage\": 35,\n      \"fill\": \"#FF6384\"\n    },\n    {\n      \"errorType\": \"500 Internal Server Error\",\n      \"percentage\": 25,\n      \"fill\": \"#36A2EB\"\n    },\n    {\n      \"errorType\": \"403 Forbidden\",\n      \"percentage\": 15,\n      \"fill\": \"#FFCE56\"\n    },\n    {\n      \"errorType\": \"404 Not Found\",\n      \"percentage\": 10,\n      \"fill\": \"#4BC0C0\"\n    },\n    {\n      \"errorType\": \"Other\",\n      \"percentage\": 15,\n      \"fill\": \"#9966FF\"\n    }\n  ]\n} ```\n\n---\n\n## 🔍 Insights\n- **Timeouts** remain the top error type at 35%.\n- **500 Internal Server Errors** account for 25%, requiring backend attention.\n- Lesser but still notable are **403, 404**, and **Other** errors.\n\n---\n\n*Powered by Astryx AI – Operational insights simplified.*",
+    "chatsummary": "A pie chart visualizes API error types in H1 2025, with each slice color-coded. Timeouts and 500 errors make up the bulk of issues."
+  },
+  "metadata": {
+    "run_id": "pie-error-type-distribution-h1-2025-colorized",
+    "feedback_tokens": []
+  }
+}

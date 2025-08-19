@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 📱 Mobile OS Market Share - Q2 2025\n\n## 🥧 Pie Chart with Legend: OS Share Breakdown\n\n```chart {\n  \"type\": \"legend-pie-chart\",\n  \"title\": \"Mobile OS Market Share (%), Q2 2025\",\n  \"description\": \"Pie chart showing percentage distribution of mobile operating systems.\",\n  \"dataKey\": \"percentage\",\n  \"nameKey\": \"os\",\n  \"legend\": true,\n  \"data\": [\n    {\n      \"os\": \"Android\",\n      \"percentage\": 58,\n      \"fill\": \"#3DDC84\"\n    },\n    {\n      \"os\": \"iOS\",\n      \"percentage\": 39,\n      \"fill\": \"#0A84FF\"\n    },\n    {\n      \"os\": \"Other\",\n      \"percentage\": 3,\n      \"fill\": \"#9E9E9E\"\n    }\n  ]\n} ```\n\n---\n\n## 🔍 Insights\n- **Android** holds the majority market share at 58%.\n- **iOS** continues strong with 39%.\n- **Other OSs** make up a minimal 3% of the market.\n\n---\n\n*Powered by Astryx AI – Market trends, simplified.*",
+    "chatsummary": "This pie chart with legend illustrates mobile OS market share for Q2 2025, highlighting Android and iOS dominance."
+  },
+  "metadata": {
+    "run_id": "pie-os-market-share-q2-2025",
+    "feedback_tokens": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🏗️ Cloud Revenue vs Costs by Region - Q2 2025\n\n## 📊 Area Chart: Revenue vs Costs by Region\n\n```chart { \"type\": \"legend-area-chart\", \"title\": \"Q2 2025 Revenue vs Costs by Region\", \"description\": \"Area chart comparing cloud revenue and operational costs by region.\", \"dataKey\": \"amount\", \"groupedKeys\": [\"Revenue\", \"Costs\"], \"color\": [\"hsl(145, 70%, 45%)\", \"hsl(10, 80%, 55%)\"], \"legend\": true, \"data\": [ { \"region\": \"North America\", \"Revenue\": 8.6, \"Costs\": 4.3 }, { \"region\": \"Europe\", \"Revenue\": 6.1, \"Costs\": 3.2 }, { \"region\": \"Asia-Pacific\", \"Revenue\": 5.4, \"Costs\": 2.9 }, { \"region\": \"South America\", \"Revenue\": 3.3, \"Costs\": 1.7 }, { \"region\": \"Middle East\", \"Revenue\": 2.7, \"Costs\": 1.4 } ] } ```\n\n---\n\n## 🔍 Observations\n- **North America** maintains the highest revenue and cost levels.\n- **Europe** outpaces **Asia-Pacific** in revenue but has slightly higher costs.\n- **South America** and **Middle East** contribute modestly but show efficient cost structures.\n\n---\n\n*Powered by Astryx AI – Regional cloud finance visualized.*",
+    "chatsummary": "An area chart comparing cloud revenue and operational costs across regions in Q2 2025, using a legend and grouped keys for clarity."
+  },
+  "metadata": {
+    "run_id": "legend-area-revenue-cost-q2-2025",
+    "feedback_tokens": []
+  }
+}

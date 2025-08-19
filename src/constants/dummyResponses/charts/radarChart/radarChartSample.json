@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🚗 European EV Sales - H1 2025\n\n## 📊 Line Chart: Monthly EV Sales Trend\n\n```chart { \"type\": \"radar-chart\", \"title\": \"EV Sales in Europe (Jan–Jun 2025)\", \"description\": \"Radar chart showing monthly electric vehicle sales in Europe (in thousands).\", \"dataKey\": \"sales\", \"color\": \"hsl(140, 70%, 45%)\", \"legend\": false, \"data\": [ { \"month\": \"January\", \"sales\": 42 }, { \"month\": \"February\", \"sales\": 48 }, { \"month\": \"March\", \"sales\": 55 }, { \"month\": \"April\", \"sales\": 61 }, { \"month\": \"May\", \"sales\": 68 }, { \"month\": \"June\", \"sales\": 74 } ] } ```\n\n---\n\n## 🔍 Insight\n- EV sales across Europe increased steadily through H1 2025, with a **76% growth** from January to June.\n\n---\n\n*Powered by Astryx AI – Tracking clean mobility trends.*",
+    "chatsummary": "A radar chart visualizing monthly electric vehicle sales in Europe from Jan–Jun 2025, showing strong growth."
+  },
+  "metadata": {
+    "run_id": "ev-sales-radarChart-europe-h1-2025",
+    "feedback_tokens": []
+  }
+}

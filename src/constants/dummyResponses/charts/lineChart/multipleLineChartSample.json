@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# ⚙️ Compute vs Storage Usage - H1 2025\n\n## 📈 Line Chart: Monthly Cloud Resource Utilization\n\n```chart { \"type\": \"multiple-line-chart\", \"title\": \"Compute vs Storage Usage (Jan–Jun 2025)\", \"description\": \"Line chart showing monthly trends for compute and storage resource usage (in petabytes and vCPU-hours).\", \"dataKey\": \"usage\", \"groupedKeys\": [\"Compute\", \"Storage\"], \"color\": [\"hsl(220, 75%, 50%)\", \"hsl(30, 85%, 55%)\"], \"legend\": true, \"data\": [ { \"month\": \"January\", \"Compute\": 320, \"Storage\": 410 }, { \"month\": \"February\", \"Compute\": 340, \"Storage\": 395 }, { \"month\": \"March\", \"Compute\": 310, \"Storage\": 430 }, { \"month\": \"April\", \"Compute\": 360, \"Storage\": 415 }, { \"month\": \"May\", \"Compute\": 350, \"Storage\": 400 }, { \"month\": \"June\", \"Compute\": 370, \"Storage\": 420 } ] } ```\n\n---\n\n## 🔍 Insights\n- **Compute usage** dipped in **March**, while **Storage** spiked.\n- Both metrics stabilized and rose slightly by **June**, indicating steady infrastructure demand.\n\n---\n\n*Powered by Astryx AI – Infrastructure intelligence in motion.*",
+    "chatsummary": "A dual-line chart comparing monthly compute and storage usage in H1 2025, showing trends and fluctuations across the two metrics."
+  },
+  "metadata": {
+    "run_id": "linechart-compute-vs-storage-h1-2025",
+    "feedback_tokens": []
+  }
+}

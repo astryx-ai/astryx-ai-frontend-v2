@@ -1,0 +1,10 @@
+{
+  "output": {
+    "answer": "# 🌎 Cloud Revenue by Region - Q2 2025\n\n## 💼 AWS vs Azure Revenue Comparison (Q2 2025)\n\n```chart { \"type\": \"multiple-bar-chart\", \"title\": \"Q2 2025 Revenue by Region (AWS vs Azure)\", \"description\": \"Regional revenue comparison for AWS and Azure in Q2 2025\", \"xAxisKey\": \"region\", \"height\": 400, \"groupedKeys\": [\"AWS\", \"Azure\"], \"color\": [\"hsl(200, 90%, 55%)\", \"hsl(265, 80%, 60%)\"], \"data\": [ { \"region\": \"North America\", \"AWS\": 16.1, \"Azure\": 14.7 }, { \"region\": \"Europe\", \"AWS\": 9.2, \"Azure\": 8.1 }, { \"region\": \"Asia-Pacific\", \"AWS\": 6.9, \"Azure\": 6.3 }, { \"region\": \"South America\", \"AWS\": 2.6, \"Azure\": 2.2 } ] } ```\n\n---\n\n## 📊 Insights\n- **AWS** leads in every region, but **Azure** is closing the gap.\n- Highest growth region: **Asia-Pacific** for both providers.\n\n---\n\n*Powered by Astryx AI – Enterprise cloud analytics simplified*",
+    "chatsummary": "Grouped bar chart comparing AWS and Azure revenue by region in Q2 2025. AWS leads, but Azure is growing rapidly in key markets."
+  },
+  "metadata": {
+    "run_id": "cloud-q2-2025-aws-vs-azure",
+    "feedback_tokens": []
+  }
+}
