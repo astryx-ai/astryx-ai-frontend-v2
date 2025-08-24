@@ -67,7 +67,7 @@ const SchedulerReminder = ({ closePopover, closeSheet }: SchedulerReminderProps)
               {tasks.slice(0, 3).map(task => (
                 <div
                   key={task.id}
-                  className={`flex flex-col dark:bg-black-70  dark:hover:bg-black-60 rounded-2xl p-3 mb-3 cursor-pointer transition ${expandedTaskId === task.id ? "bg-blue-600 text-white" : "bg-white hover:text-black hover:bg-gray-100"}`}
+                  className={`flex flex-col dark:bg-black-90/50  dark:hover:bg-black-90/70 rounded-2xl p-3 mb-3 cursor-pointer transition ${expandedTaskId === task.id ? "bg-blue-600 text-white" : "bg-white hover:text-black dark:border dark:border-white-50 hover:bg-gray-100"}`}
                 >
                   <div className="flex items-start justify-between">
                     <div
@@ -120,7 +120,7 @@ const SchedulerReminder = ({ closePopover, closeSheet }: SchedulerReminderProps)
               {/* Show More Button */}
               <div className="text-center mt-4">
                 <button
-                  className="bg-blue-600 dark:bg-black-90 rounded-full cursor-pointer px-4 py-2 text-sm text-white hover:bg-blue-700 transition"
+                  className="bg-blue-600 dark:bg-white dark:text-black-80 rounded-full cursor-pointer px-4 py-2 text-sm text-white hover:bg-blue-700 transition"
                   onClick={() => navigate("/task-scheduler")}
                 >
                   Show More
@@ -198,7 +198,7 @@ const SchedulerReminder = ({ closePopover, closeSheet }: SchedulerReminderProps)
               {tasks.map(task => (
                 <div
                   key={task.id}
-                  className={`flex flex-col dark:bg-black-70  dark:hover:bg-black-60 rounded-2xl p-3 mb-3 cursor-pointer transition ${expandedTaskId === task.id ? "bg-blue-600 text-white" : "bg-white hover:text-black hover:bg-gray-100"}`}
+                  className={`flex flex-col dark:bg-black-90/50  dark:hover:bg-black-90/70 rounded-2xl p-3 mb-3 cursor-pointer transition ${expandedTaskId === task.id ? "bg-blue-600 text-white" : "bg-white hover:text-black hover:bg-gray-100 dark:border dark:border-white-50"}`}
                 >
                   <div className="flex items-start justify-between">
                     <div

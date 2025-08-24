@@ -32,7 +32,7 @@ export interface Message {
   timestamp: string;
   isNewMessage?: boolean;
   responseTime?: number;
-  aiChartData?: AiChartData | null;
+  aiChartData?: AiChartData[] | null;
   aiResponseSources?: SourceLinkPreview[] | null;
 }
 
@@ -42,7 +42,7 @@ export type AddNewMessageType = {
   userId: string;
   content: string;
   isAi: boolean;
-  aiChartData?: AiChartData | null;
+  aiChartData?: AiChartData[] | null;
   createdAt: string;
   aiResponseSources?: SourceLinkPreview[] | null;
 };

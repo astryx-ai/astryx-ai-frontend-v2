@@ -62,9 +62,9 @@ const ChartRenderer = ({ type, chart }: { type: string; chart: ChartPayload }) =
   // Transform chart data to unified format
   // Auto-correct dataKey if mismatch (e.g. API provided market_share but mapping renamed marketCap)
   let correctedChart = chart;
-  if (chart && chart.dataKey && chart.data?.length) {
+  if (chart && chart.dataKey && chart.data.length > 0) {
     const first = chart.data[0];
-    if (!(chart.dataKey in first)) {
+    if (first && !(chart.dataKey in first)) {
       // Try to find a numeric alternative key
       const numericKeys = Object.keys(first).filter(k => typeof (first as any)[k] === "number");
       if (numericKeys.length) {

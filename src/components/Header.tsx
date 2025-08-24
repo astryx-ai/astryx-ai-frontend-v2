@@ -35,7 +35,7 @@ const Header = ({ toggleSidebar, toggleMobileSidebar, user, onSignOut }: HeaderP
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const { chatTitle, currentChatId } = useChatStore();
-  const { saveChat, isChatSaved } = useSavedChatStore();
+  const { saveChat, isChatSaved, removeSavedChat } = useSavedChatStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -50,7 +50,13 @@ const Header = ({ toggleSidebar, toggleMobileSidebar, user, onSignOut }: HeaderP
       return;
     }
 
-    await saveChat(currentChatId, chatTitle, user.id);
+    if (isCurrentChatSaved) {
+      await removeSavedChat(currentChatId);
+      toast.success("Chat removed from saved chats");
+    } else {
+      await saveChat(currentChatId, chatTitle, user.id);
+      toast.success("Chat saved to saved chats");
+    }
   };
 
   const isCurrentChatSaved = currentChatId ? isChatSaved(currentChatId) : false;
@@ -84,16 +90,15 @@ const Header = ({ toggleSidebar, toggleMobileSidebar, user, onSignOut }: HeaderP
 
         <div className="flex items-center gap-4">
           <ThemeToggleIcon theme={theme} onToggle={handleThemeToggle} />
-
           <div className="relative">
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
               <PopoverTrigger asChild onClick={handleRefetchDataOverChange}>
                 <div>
                   <button
-                    className="p-1 text-black-100 dark:text-white-100 cursor-pointer  in-focus-within:scale-110 in-focus-within:text-blue-600 dark:hover:text-white-100 transition-colors"
+                    className="p-1 text-black-100 dark:text-white-100 cursor-pointer focus-within:text-blue-600 dark:hover:text-white-100 transition-colors"
                     title="Task Scheduler"
                   >
-                    <AlarmClockCheck className="w-5 h-5" />
+                    <AlarmClockCheck className="w-5 h-5 " />
                   </button>
                   {/* <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
                     <span className="text-xs text-white font-medium">3</span>
@@ -126,14 +131,14 @@ const Header = ({ toggleSidebar, toggleMobileSidebar, user, onSignOut }: HeaderP
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <button
-                className="p-1 text-black-100 dark:text-white-100 cursor-pointer  in-focus-within:scale-110 in-focus-within:text-blue-600 dark:hover:text-white-100 transition-colors"
+                className="p-1 text-black-100 dark:text-white-100 cursor-pointer focus-within:text-blue-600 dark:hover:text-white-100 transition-colors"
                 title="Task Scheduler"
                 onClick={() => setIsSheetOpen(true)}
               >
                 <AlarmClockCheck className="w-5 h-5" />
               </button>
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent className="bg-black-80">
               <SheetHeader className="hidden">
                 <SheetTitle>Task Scheduler</SheetTitle>
                 <SheetDescription>Provided your scheduled task update</SheetDescription>

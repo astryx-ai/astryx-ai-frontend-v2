@@ -39,8 +39,7 @@ const ProfileDropdown = ({ user, onSignOut }: ProfileDropdownProps) => {
   };
 
   const handleSettings = () => {
-    console.log("Settings clicked");
-    toast.info("Coming soon");
+    navigate("/settings");
   };
 
   const handleBilling = () => {

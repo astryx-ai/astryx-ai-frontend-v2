@@ -9,7 +9,7 @@ import type { NewChatType } from "@/types/chatType";
 import { useQueryClient } from "@tanstack/react-query";
 
 function Home() {
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const { session, signOut } = useAuthStore();
   const { loadSavedChats } = useSavedChatStore();

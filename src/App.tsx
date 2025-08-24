@@ -15,9 +15,14 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "sonner";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsNConditions";
+import Settings from "./pages/Settings";
+import { useTTSInitialization } from "./hooks/useTTSInitialization";
 
 function App() {
   const { session, setSession, loading, setLoading } = useAuthStore();
+  
+  // Initialize TTS voices when app starts
+  useTTSInitialization();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -34,6 +39,22 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, [setSession, setLoading]);
+
+  // Global cleanup: stop TTS on page refresh/close
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      try {
+        if (typeof window !== "undefined" && window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+      } catch {
+        // noop
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
 
   if (loading) {
     return (
@@ -60,6 +81,7 @@ function App() {
           />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsOfService />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>

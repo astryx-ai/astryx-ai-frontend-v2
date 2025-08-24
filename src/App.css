@@ -107,7 +107,7 @@
   box-shadow: 4px 4px 0px rgba(23, 42, 240, 1);
 }
 .dark .scheduler-box-shadow {
-  box-shadow: 3px 3px 0px rgb(7, 7, 7);
+  box-shadow: 4px 4px 0px rgba(238, 238, 238, 0.945);
 }
 
 /* Hide scrollbar but keep scroll functionality */
@@ -118,4 +118,25 @@
 
 .scrollbar-hidden::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
+}
+
+.shdw-box {
+  box-shadow: 5px 6px 0 rgba(23, 42, 240, 1);
+}
+
+.dark .shdw-box {
+  box-shadow: 5px 6px 0 white;
+}
+.startegy-card:hover :is(.title, .strategy-icon){
+  color: white;
+  border: none;
+}
+.startegy-card:hover .desc{
+  color: #cccccc;
+}
+.shdw-box-r {
+  box-shadow: 6px 5px 0 rgba(23, 42, 240, 1);
+}
+.dark .shdw-box-r {
+  box-shadow: 6px 5px 0 white;
 }

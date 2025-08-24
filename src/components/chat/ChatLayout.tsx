@@ -90,10 +90,10 @@ const ChatLayout = ({
           >
             <div
               ref={scrollContainerRef}
-              className="h-[calc(100vh-75px)] overflow-y-auto p-4 max-h-[calc(100vh-75px)] scroll-smooth relative flex flex-col"
+              className="h-[calc(100vh-75px)] overflow-y-auto p-4 pb-0 max-h-[calc(100vh-75px)] scroll-smooth relative flex flex-col "
             >
               <div
-                className={`max-w-3xl lg:max-w-5xl mx-auto flex-1 flex flex-col relative w-full ${
+                className={`max-w-3xl lg:max-w-5xl mx-auto flex-1 flex flex-col relative w-full  ${
                   showInitialState ? "pt-[16%] md:pt-[8%]" : "pt-0"
                 }`}
               >
@@ -105,10 +105,10 @@ const ChatLayout = ({
                       transition={{ duration: 0.2, ease: "easeInOut" }}
                       className="flex flex-col gap-4 text-xl sm:text-2xl md:text-3xl font-medium text-center font-family-parkinsans"
                     >
-                      <p className="text-black-100 dark:text-white-100">
+                      <p className="text-(--primary-blue) dark:text-white-100">
                         Build, test, and execute strategies,
                       </p>
-                      <p className="text-black-100 dark:text-white-100">
+                      <p className="text-(--primary-blue) dark:text-white-100">
                         Let Astryx do it all for you!
                       </p>
                     </motion.div>
@@ -218,10 +218,10 @@ const ChatLayout = ({
                   transition={{ duration: 0.2, ease: "easeInOut" }}
                   className="flex flex-col gap-4 text-xl sm:text-2xl font-medium text-center font-family-parkinsans"
                 >
-                  <p className="text-black-100 dark:text-white-100">
+                  <p className="text-(--primary-blue) dark:text-white-100">
                     Build, test, and execute strategies,
                   </p>
-                  <p className="text-black-100 dark:text-white-100">
+                  <p className="text-(--primary-blue) dark:text-white-100">
                     Let Astryx do it all for you!
                   </p>
                 </motion.div>

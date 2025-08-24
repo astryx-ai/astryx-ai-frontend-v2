@@ -14,14 +14,10 @@ export const processTextForTypewriter = (text: string): string[] => {
     return [];
   }
 
-  // Clean and filter the words array to prevent undefined values
-  const words = text
-    .split(" ")
-    .filter(word => word !== "" && word !== undefined && word !== null)
-    .map(word => word.trim())
-    .filter(word => word.length > 0);
-
-  return words;
+  // Preserve newlines and whitespace tokens so layout (including line breaks) is accurate during typing
+  // Tokens include: CRLF/LF newlines, contiguous whitespace, or contiguous non-whitespace
+  const tokens = text.match(/\r?\n|\s+|\S+/g) || [];
+  return tokens;
 };
 
 // Function to validate and format text content

@@ -102,14 +102,14 @@ export const useChatContainer = (
           content: string;
           isAi?: boolean;
           createdAt?: string;
-          aiChartData?: AiChartData | null;
+          aiChartData?: AiChartData[] | null;
           aiResponseSources?: SourceLinkPreview[] | null;
         }) => ({
           id: msg.id || `msg-${uuidv4()}`,
           content: msg.content,
           isAi: msg.isAi || false,
           timestamp: msg.createdAt || new Date().toISOString(),
-          aiChartData: msg.aiChartData || null,
+          aiChartData: msg.aiChartData,
           aiResponseSources: msg.aiResponseSources || null,
         })
       );
@@ -200,7 +200,7 @@ export const useChatContainer = (
         timestamp: new Date().toISOString(),
         isNewMessage: true,
         responseTime: messageData.responseTime || 0,
-        aiChartData: messageData.data.aiChartData || null,
+        aiChartData: messageData.data.aiChartData,
         aiResponseSources: messageData.data.aiResponseSources || null,
       };
 
@@ -209,26 +209,32 @@ export const useChatContainer = (
 
         // If chart data is present, automatically set it in the secondary panel
         if (messageData.data.aiChartData) {
-          // Transform AiChartData to ChartPayload format
-          const aiChart = messageData.data.aiChartData;
-          const chartPayload: ChartPayload = {
-            type: aiChart.type,
-            title: aiChart.title,
-            description: aiChart.description,
-            data: aiChart.data.map(point => {
-              // Preserve original keys; ensure the numeric dataKey exists
-              if (point[aiChart.dataKey] !== undefined) return { ...point } as any;
-              // Fallback: if a commonly renamed key exists (e.g. marketCap vs market_share), duplicate it
-              if (aiChart.dataKey === "market_share" && point["marketCap"] !== undefined) {
-                return { ...point, [aiChart.dataKey]: point["marketCap"] } as any;
-              }
-              return { ...point } as any;
-            }),
-            dataKey: aiChart.dataKey,
-            xAxisKey: aiChart.nameKey,
-            nameKey: aiChart.nameKey,
-          };
-          setSecondaryPanelContent({ chart: chartPayload });
+          // Handle both single chart object and array of charts
+          const aiChartData = messageData.data.aiChartData;
+          const charts = Array.isArray(aiChartData) ? aiChartData : [aiChartData];
+          
+          if (charts.length > 0) {
+            // Transform the first chart to ChartPayload format
+            const aiChart = charts[0];
+            const chartPayload: ChartPayload = {
+              type: aiChart.type,
+              title: aiChart.title,
+              description: aiChart.description,
+              data: aiChart.data.map(point => {
+                // Preserve original keys; ensure the numeric dataKey exists
+                if (point[aiChart.dataKey] !== undefined) return { ...point } as any;
+                // Fallback: if a commonly renamed key exists (e.g. marketCap vs market_share), duplicate it
+                if (aiChart.dataKey === "market_share" && point["marketCap"] !== undefined) {
+                  return { ...point, [aiChart.dataKey]: point["marketCap"] } as any;
+                }
+                return { ...point } as any;
+              }),
+              dataKey: aiChart.dataKey,
+              xAxisKey: aiChart.nameKey,
+              nameKey: aiChart.nameKey,
+            };
+            setSecondaryPanelContent({ chart: chartPayload });
+          }
         }
 
         dispatch({ type: "COMPLETE_MESSAGE_RESPONSE" });

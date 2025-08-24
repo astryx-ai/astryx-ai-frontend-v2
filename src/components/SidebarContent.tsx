@@ -8,7 +8,7 @@ import { useDeleteChat, useGetAllChats } from "@/hooks/useChat";
 import { useChatStore } from "@/store/chatStore";
 import { useSavedChatStore } from "@/store/savedChatStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Search, Twitter, Hourglass, X, Star } from "lucide-react";
+import { Plus, Search, Twitter, Hourglass, X, Star, XCircle } from "lucide-react";
 import { type NewChatType } from "@/types/chatType";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -28,6 +28,7 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
 
   // Fetch chats directly in this component
   const [chats, setChats] = useState<NewChatType[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const { getAllChats, isLoading: isLoadingChats } = useGetAllChats();
   const [showSupportDialog, setShowSupportDialog] = useState(false);
 
@@ -43,6 +44,11 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
       setChats(fetchedChats);
     }
   }, [getAllChats]);
+
+  // Filter chats based on search term
+  const filteredChats = chats.filter(chat =>
+    chat.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleChatSave = async (chatId: number) => {
     if (!session?.user?.id) {
@@ -99,7 +105,7 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
       <div className="flex items-center justify-between h-10 mb-4">
         <AnimatePresence mode="wait">
           {showSidebar ? (
-            <Link to={"/"}>
+            <a href={"/"}>
               <motion.img
                 key="full-logo"
                 src={theme === "dark" ? "/logo/logo-white.svg" : "/logo/logo.svg"}
@@ -110,9 +116,9 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.2, delay: 0.1 }}
               />
-            </Link>
+            </a>
           ) : (
-            <Link to={"/"}>
+            <a href={"/"}>
               <motion.img
                 key="mini-logo"
                 src={theme === "dark" ? "/logo/x-white.svg" : "/logo/x.svg"}
@@ -123,7 +129,7 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.2 }}
               />
-            </Link>
+            </a>
           )}
         </AnimatePresence>
 
@@ -194,9 +200,19 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
               <Search className="w-5 h-5 text-black-30 dark:text-white-30" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search chats..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full bg-transparent outline-none text-black-100 dark:text-white-100 placeholder:text-black-30 dark:placeholder:text-white-30 focus:outline-none"
               />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="p-1 hover:bg-black-10 dark:hover:bg-white-10 rounded transition-colors"
+                >
+                  <XCircle className="w-4 h-4 text-black-40 dark:text-white-40" />
+                </button>
+              )}
             </div>
 
             <div className="mt-2 flex-1 min-h-0">
@@ -206,12 +222,16 @@ const SidebarContent = ({ showSidebar, isMobile = false, onClose }: SidebarConte
                 <p className="text-gray-500 dark:text-white-50 text-sm mt-4">
                   No chats yet. Start a conversation!
                 </p>
+              ) : filteredChats.length === 0 && searchTerm ? (
+                <p className="text-gray-500 dark:text-white-50 text-sm mt-4">
+                  No chats found for "{searchTerm}"
+                </p>
               ) : (
                 <Link
                   to={"/"}
                   className="flex flex-col gap-2 h-full overflow-y-auto hide-scrollbar"
                 >
-                  {chats.map((chat, index) => (
+                  {filteredChats.map((chat, index) => (
                     <ChatItem
                       key={chat.id}
                       chat={{ id: parseInt(chat.id), name: chat.title }}

@@ -63,7 +63,7 @@ const ChatItem = ({
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.2, delay: 0.2 + index * 0.05 }}
       className={`flex items-center gap-1 p-2 rounded-xl cursor-pointer group transition-colors ${
-        isSelected ? "bg-black-05 dark:bg-white-05" : "hover:bg-black-03 dark:hover:bg-white-03"
+        isSelected ? "bg-black-05 dark:bg-white-05 " : "hover:bg-black-03 dark:hover:bg-white-03"
       }`}
       onClick={() => onSelect(chat.id)}
     >
@@ -75,7 +75,13 @@ const ChatItem = ({
         )}
       </AnimatePresence>
 
-      <p className="w-full whitespace-nowrap truncate">{chat.name}</p>
+      <p
+        className={`w-full whitespace-nowrap truncate ${
+          isSelected ? "text-black-90 dark:text-white-90" : "text-white-40 dark:text-white-40"
+        }`}
+      >
+        {chat.name}
+      </p>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
