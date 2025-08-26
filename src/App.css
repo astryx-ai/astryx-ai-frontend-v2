@@ -127,11 +127,11 @@
 .dark .shdw-box {
   box-shadow: 5px 6px 0 white;
 }
-.startegy-card:hover :is(.title, .strategy-icon){
+.startegy-card:hover :is(.title, .strategy-icon) {
   color: white;
   border: none;
 }
-.startegy-card:hover .desc{
+.startegy-card:hover .desc {
   color: #cccccc;
 }
 .shdw-box-r {
@@ -139,4 +139,27 @@
 }
 .dark .shdw-box-r {
   box-shadow: 6px 5px 0 white;
+}
+
+.astryx-bg {
+  background-image: url("/bg.svg");
+  background-repeat: repeat-x;
+  background-position: -50% 0%;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  animation: scroll-left 80s linear infinite;
+}
+
+.dark .astryx-bg {
+  background-image: url("/bg-dark.svg");
+}
+
+@keyframes scroll-left {
+  0% {
+    background-position: -50% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }

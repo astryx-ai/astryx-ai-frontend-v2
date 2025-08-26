@@ -14,8 +14,8 @@ export type LocalState = {
   pendingUserMessage: string | null;
   newlyCreatedChatIds: Set<string>;
   secondaryPanelContent: {
-    code: string | null;
-    chart: ChartPayload | null;
+    code: string | string[] | null;
+    chart: ChartPayload | ChartPayload[] | null;
   };
   isSecondaryPanelOpen: boolean;
 };
@@ -28,7 +28,8 @@ export type LocalAction =
   | { type: "COMPLETE_MESSAGE_RESPONSE" }
   | {
       type: "SET_SECONDARY_PANEL_CONTENT";
-      payload: { code?: string | null; chart?: ChartPayload | null };
+      payload: { code?: string | string[] | null; chart?: ChartPayload | ChartPayload[] | null };
     }
   | { type: "TOGGLE_SECONDARY_PANEL"; payload?: boolean }
+  | { type: "CLEAR_SECONDARY_PANEL_CONTENT" }
   | { type: "RESET_TO_INITIAL" };

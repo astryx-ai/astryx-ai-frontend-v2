@@ -1,24 +1,27 @@
 import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Code2Icon, ChartSpline } from "lucide-react";
 import CodeBlock from "./chat/Codeblock";
 import { processTextForTypewriter, validateTextContent } from "@/helper";
 import type { ChartPayload } from "@/types/chartType";
 import type { AiChartData, SourceLinkPreview } from "@/types/chatType";
 import { SourceLinkPreview as SourceLinkPreviewComponent } from "./SourceLinkPreview";
 import ActionsButton from "./chat/ActionsButton";
+import ChartPlaceholder from "./ChartPlaceholder";
+import CodePlaceholder from "./CodePlaceholder";
 
 const useTypewriter = (text: string, speed: number = 50, shouldAnimate: boolean = true) => {
   const [displayText, setDisplayText] = useState<string>("");
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const currentIndexRef = useRef(0);
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
     if (!text) return;
 
-    if (!shouldAnimate) {
+    // If we've already animated this text or shouldn't animate, show full text immediately
+    if (!shouldAnimate || hasAnimatedRef.current) {
       setDisplayText(text);
       setIsComplete(true);
       return;
@@ -44,6 +47,7 @@ const useTypewriter = (text: string, speed: number = 50, shouldAnimate: boolean 
         timerRef.current = setTimeout(typeNextWord, speed);
       } else {
         setIsComplete(true);
+        hasAnimatedRef.current = true; // Mark as animated
       }
     };
 
@@ -73,8 +77,8 @@ const TypeWriterAiMsg = ({
   isNewMessage?: boolean;
   responseTime?: number;
   setSecondaryPanelContent?: (content: {
-    code?: string | null;
-    chart?: ChartPayload | null;
+    code?: string | string[] | null;
+    chart?: ChartPayload | ChartPayload[] | null;
   }) => void;
   aiChartData?: AiChartData[] | null;
   sourceLinkPreview?: SourceLinkPreview[] | null;
@@ -135,7 +139,8 @@ const TypeWriterAiMsg = ({
     if (aiChartData && setSecondaryPanelContent) {
       const payloads = extractChartPayloads(aiChartData);
       if (payloads.length > 0) {
-        setSecondaryPanelContent({ chart: payloads[0] });
+        // Pass all charts to the secondary panel
+        setSecondaryPanelContent({ chart: payloads.length === 1 ? payloads[0] : payloads });
       }
     }
   }, [isComplete, aiChartData, setSecondaryPanelContent, extractChartPayloads]);
@@ -145,9 +150,10 @@ const TypeWriterAiMsg = ({
     const processContent = (text: string) => {
       // Validate the text input
       const cleanText = validateTextContent(text);
-      if (!cleanText) return [];
+      if (!cleanText) return { parts: [], codeBlocks: [] };
 
       const parts = [];
+      const codeBlocks: string[] = [];
       let encounteredIncompleteBlock = false;
       // Use a more robust approach to find and extract chart blocks and code blocks
       const chartStartPattern = "```chart";
@@ -260,9 +266,7 @@ const TypeWriterAiMsg = ({
 
           // Only update side panel and render code card after typing completes
           if (isComplete) {
-            if (setSecondaryPanelContent) {
-              setSecondaryPanelContent({ code: codeContent });
-            }
+            codeBlocks.push(codeContent);
             parts.push({
               type: "code-placeholder",
               content: codeContent,
@@ -286,10 +290,12 @@ const TypeWriterAiMsg = ({
         }
       }
 
-      return parts;
+      return { parts, codeBlocks };
     };
 
-    const processedParts = processContent(displayText);
+    const result = processContent(displayText);
+    const processedParts = result.parts || [];
+    const codeBlocks = result.codeBlocks || [];
 
     // Add chart placeholder(s) at the end if aiChartData is present
     if (aiChartData && isComplete) {
@@ -299,6 +305,13 @@ const TypeWriterAiMsg = ({
           type: "chart-placeholder",
           content: payload,
         });
+      });
+    }
+
+    // Update secondary panel with all code blocks if any exist
+    if (codeBlocks.length > 0 && isComplete && setSecondaryPanelContent) {
+      setSecondaryPanelContent({
+        code: codeBlocks.length === 1 ? codeBlocks[0] : codeBlocks,
       });
     }
 
@@ -373,70 +386,17 @@ const TypeWriterAiMsg = ({
                 {part.content}
               </ReactMarkdown>
             ) : part.type === "chart-placeholder" ? (
-              <div key={index} className="my-4">
-                {/* Chart Title */}
-                {part.content.title && (
-                  <div className="mb-2">
-                    <h4 className="text-sm font-semibold text-gray-900 dark:text-white-100">
-                      {part.content.title}
-                    </h4>
-                    {part.content.description && (
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        {part.content.description}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Chart Placeholder */}
-                <div
-                  className="bg-white dark:bg-black-90 border border-gray-200 dark:border-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors custom-shadow overflow-hidden cardBox"
-                  onClick={() => {
-                    if (setSecondaryPanelContent) {
-                      setSecondaryPanelContent({ chart: part.content });
-                    }
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-20 h-14 rotate-12  backdrop-blur-sm bg-green-500/25 flex justify-center items-center rounded-xl -translate-x-6">
-                        <ChartSpline className="animate-bounce" />
-                      </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Click here to see the chart in the sidepanel
-                      </span>
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-800 capitalize bg-[#6cceb899] flex justify-center items-center px-4 py-2 rounded-lg backdrop-blur-xs rotate-12 translate-x-7 translate-y-4 h-16 contentTxt transition-all duration-300 ease-in">
-                      {part.content.type.split("-").join(" ") || "Chart"}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ChartPlaceholder
+                key={index}
+                content={part.content}
+                setSecondaryPanelContent={setSecondaryPanelContent}
+              />
             ) : part.type === "code-placeholder" ? (
-              <div key={index} className="my-4">
-                <div
-                  className="bg-white dark:bg-black-90 border border-gray-200 dark:border-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors custom-shadow overflow-hidden cardBox"
-                  onClick={() => {
-                    if (setSecondaryPanelContent) {
-                      setSecondaryPanelContent({ code: part.content });
-                    }
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 ">
-                      <div className="w-20 h-14 rotate-12  backdrop-blur-sm bg-blue-500/25 flex justify-center items-center rounded-xl -translate-x-6">
-                        <Code2Icon className="animate-bounce" />
-                      </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Click here to see the code in the sidepanel
-                      </span>
-                    </div>
-                    <div className="text-xs text-gray-600 dark:text-gray-800 bg-[#6cbace99] flex justify-center items-center px-6 py-2 rounded-lg backdrop-blur-xs rotate-12 translate-x-7 translate-y-4 h-16 contentTxt transition-all duration-300 ease-in">
-                      {part.content.split("\n").length} lines
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <CodePlaceholder
+                key={index}
+                content={part.content}
+                setSecondaryPanelContent={setSecondaryPanelContent}
+              />
             ) : null
           )}
           {/* Source Link Preview */}

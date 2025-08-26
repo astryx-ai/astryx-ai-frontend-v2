@@ -24,11 +24,14 @@ interface ChatLayoutProps {
 
   // Secondary panel props
   setSecondaryPanelContent: (content: {
-    code?: string | null;
-    chart?: ChartPayload | null;
+    code?: string | string[] | null;
+    chart?: ChartPayload | ChartPayload[] | null;
   }) => void;
   toggleSecondaryPanel: (isOpen?: boolean) => void;
-  secondaryPanelContent: { code: string | null; chart: ChartPayload | null };
+  secondaryPanelContent: {
+    code: string | string[] | null;
+    chart: ChartPayload | ChartPayload[] | null;
+  };
   isSecondaryPanelOpen: boolean;
 
   // Optional customization

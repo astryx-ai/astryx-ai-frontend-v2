@@ -20,7 +20,7 @@ import { useTTSInitialization } from "./hooks/useTTSInitialization";
 
 function App() {
   const { session, setSession, loading, setLoading } = useAuthStore();
-  
+
   // Initialize TTS voices when app starts
   useTTSInitialization();
 

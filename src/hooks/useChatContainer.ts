@@ -85,6 +85,9 @@ export const useChatContainer = (
     if (isNewChat) {
       dispatch({ type: "RESET_TO_INITIAL" });
     } else if (currentChatId) {
+      // Clear secondary panel content when switching chats
+      dispatch({ type: "CLEAR_SECONDARY_PANEL_CONTENT" });
+      
       if (currentMessages.length > 0) {
         dispatch({ type: "SET_CHAT_STATE", payload: ChatState.CHATTING });
       } else {
@@ -180,7 +183,10 @@ export const useChatContainer = (
 
   // Secondary panel actions
   const setSecondaryPanelContent = useCallback(
-    (content: { code?: string | null; chart?: ChartPayload | null }) => {
+    (content: {
+      code?: string | string[] | null;
+      chart?: ChartPayload | ChartPayload[] | null;
+    }) => {
       dispatch({ type: "SET_SECONDARY_PANEL_CONTENT", payload: content });
     },
     []
@@ -212,11 +218,10 @@ export const useChatContainer = (
           // Handle both single chart object and array of charts
           const aiChartData = messageData.data.aiChartData;
           const charts = Array.isArray(aiChartData) ? aiChartData : [aiChartData];
-          
+
           if (charts.length > 0) {
-            // Transform the first chart to ChartPayload format
-            const aiChart = charts[0];
-            const chartPayload: ChartPayload = {
+            // Transform all charts to ChartPayload format
+            const chartPayloads: ChartPayload[] = charts.map(aiChart => ({
               type: aiChart.type,
               title: aiChart.title,
               description: aiChart.description,
@@ -232,8 +237,12 @@ export const useChatContainer = (
               dataKey: aiChart.dataKey,
               xAxisKey: aiChart.nameKey,
               nameKey: aiChart.nameKey,
-            };
-            setSecondaryPanelContent({ chart: chartPayload });
+            }));
+
+            // Pass all charts to the secondary panel
+            setSecondaryPanelContent({
+              chart: chartPayloads.length === 1 ? chartPayloads[0] : chartPayloads,
+            });
           }
         }
 

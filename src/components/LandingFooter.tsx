@@ -1,11 +1,11 @@
-import { ArrowRightCircle, Linkedin, LucideFacebook, Twitter } from "lucide-react";
+import { Linkedin, LucideFacebook, Twitter } from "lucide-react";
 
 const LandingFooter = () => {
   return (
     <div className="bg-black-90 pt-20">
       <div className=" flex flex-col md:flex-row gap-10 justify-between w-full">
         <div className="px-10 md:ps-24 md:w-3/4">
-          <div className="text-white text-xl md:text-3xl font-light">
+          <div className="text-white text-xl sm:text-3xl font-light font-family-inter">
             <h2>let astryx </h2>
             <h2>automate it for you.</h2>
           </div>
@@ -13,13 +13,13 @@ const LandingFooter = () => {
           <div className="mt-6">
             <input
               placeholder="enter your email id here."
-              className="text-white-80 placeholder:text-white-40 text-lg md:text-2xl outline-none border-b border-white-50 py-4 w-full md:w-[70%]"
+              className="text-white-80 placeholder:text-white-40 text-lg sm:text-3xl md:text-2xl outline-none border-b border-white-50 py-4 w-full md:w-[70%] font-family-inter"
             />
             <div className="text-white flex gap-2 items-center mt-5 cursor-pointer">
-              <button className="text-white text-lg md:text-2xl cursor-pointer">
+              <button className="text-white text-lg sm:text-3xl md:text-2xl lg:text-3xl cursor-pointer font-family-inter">
                 start free trail
               </button>
-              <ArrowRightCircle className="text-lg md:text-2xl" />
+              <img src={"/icons/rightArrow.svg"} alt="->" className="" />
             </div>
           </div>
         </div>

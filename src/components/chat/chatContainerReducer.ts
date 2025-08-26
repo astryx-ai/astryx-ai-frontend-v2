@@ -59,6 +59,15 @@ export function localStateReducer(state: LocalState, action: LocalAction): Local
         isSecondaryPanelOpen:
           action.payload !== undefined ? action.payload : !state.isSecondaryPanelOpen,
       };
+    case "CLEAR_SECONDARY_PANEL_CONTENT":
+      return {
+        ...state,
+        secondaryPanelContent: {
+          code: null,
+          chart: null,
+        },
+        isSecondaryPanelOpen: false,
+      };
     case "RESET_TO_INITIAL":
       return initialState;
     default:

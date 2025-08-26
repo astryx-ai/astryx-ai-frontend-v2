@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { Message } from "@/types/chatType";
 
 interface ChatStore {
@@ -13,46 +14,58 @@ interface ChatStore {
   clearCurrentChat: () => void;
 }
 
-export const useChatStore = create<ChatStore>((set, get) => ({
-  currentChatId: null,
-  chatMessages: {},
-  chatTitle: null,
+export const useChatStore = create<ChatStore>()(
+  persist(
+    (set, get) => ({
+      currentChatId: null,
+      chatMessages: {},
+      chatTitle: null,
 
-  setChatTitle: (title: string) => set({ chatTitle: title }),
-  getChatTitle: () => get().chatTitle,
-  setCurrentChatId: id => set({ currentChatId: id }),
+      setChatTitle: (title: string) => set({ chatTitle: title }),
+      getChatTitle: () => get().chatTitle,
+      setCurrentChatId: id => set({ currentChatId: id }),
 
-  addMessageToChat: (chatId, message) => {
-    const { chatMessages } = get();
-    set({
-      chatMessages: {
-        ...chatMessages,
-        [chatId]: [...(chatMessages[chatId] || []), message],
+      addMessageToChat: (chatId, message) => {
+        const { chatMessages } = get();
+        set({
+          chatMessages: {
+            ...chatMessages,
+            [chatId]: [...(chatMessages[chatId] || []), message],
+          },
+        });
       },
-    });
-  },
 
-  setChatMessages: (chatId, messages) => {
-    const { chatMessages } = get();
-    set({
-      chatMessages: {
-        ...chatMessages,
-        [chatId]: messages,
+      setChatMessages: (chatId, messages) => {
+        const { chatMessages } = get();
+        set({
+          chatMessages: {
+            ...chatMessages,
+            [chatId]: messages,
+          },
+        });
       },
-    });
-  },
 
-  initializeChat: chatId => {
-    const { chatMessages } = get();
-    if (!chatMessages[chatId]) {
-      set({
-        chatMessages: {
-          ...chatMessages,
-          [chatId]: [],
-        },
-      });
+      initializeChat: chatId => {
+        const { chatMessages } = get();
+        if (!chatMessages[chatId]) {
+          set({
+            chatMessages: {
+              ...chatMessages,
+              [chatId]: [],
+            },
+          });
+        }
+      },
+
+      clearCurrentChat: () => set({ currentChatId: null }),
+    }),
+    {
+      name: "chat-store", // unique name for localStorage key
+      partialize: (state) => ({
+        chatMessages: state.chatMessages,
+        currentChatId: state.currentChatId,
+        chatTitle: state.chatTitle,
+      }),
     }
-  },
-
-  clearCurrentChat: () => set({ currentChatId: null }),
-}));
+  )
+);
