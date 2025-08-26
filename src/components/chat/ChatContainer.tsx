@@ -24,9 +24,8 @@ const ChatContainer = ({ onChatCreated }: ChatContainerProps) => {
       currentMessages={currentMessages}
       showInitialState={showInitialState}
       isThinking={isThinking}
-      isLoadingChatMessages={isLoadingChatMessages}
       handlePromptSubmit={handlePromptSubmit}
-      showLoadingSpinner={true}
+      isLoadingChatMessages={isLoadingChatMessages}
       setSecondaryPanelContent={setSecondaryPanelContent}
       toggleSecondaryPanel={toggleSecondaryPanel}
       secondaryPanelContent={localState.secondaryPanelContent}

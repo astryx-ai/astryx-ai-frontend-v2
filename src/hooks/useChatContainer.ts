@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { useReducer, useEffect, useCallback } from "react";
+import { useReducer, useEffect, useCallback, useRef } from "react";
 import { useChatStore } from "@/store/chatStore";
 import { scrollToBottom } from "@/helper";
 import { ChatState } from "@/enums";
-import { useNewChat, useAddMessageToChat, useGetPreviousChatMessages } from "./useChat";
+import { useNewChat, useGetPreviousChatMessages, useStreamChat } from "./useChat";
 import type { Message, NewChatType, AiChartData, SourceLinkPreview } from "@/types/chatType";
 import type { ChartPayload } from "@/types/chartType";
 import { localStateReducer, initialState } from "@/components/chat/chatContainerReducer";
@@ -19,6 +19,8 @@ export const useChatContainer = (
     currentChatId,
     chatMessages,
     addMessageToChat: addMessageToStore,
+    appendToMessageContent,
+    updateMessageById,
     setChatMessages,
     setCurrentChatId,
     setChatTitle,
@@ -27,7 +29,7 @@ export const useChatContainer = (
 
   // API hooks
   const { createNewChat, data: newChatData } = useNewChat();
-  const { addMessageToChat: addMessageToAPI, data: messageData } = useAddMessageToChat();
+  const { streamChat } = useStreamChat();
   const { getChatMessages, isLoading: isLoadingChatMessages } = useGetPreviousChatMessages(
     currentChatId || "",
     localState.newlyCreatedChatIds.has(currentChatId || "")
@@ -43,6 +45,73 @@ export const useChatContainer = (
   const autoScrollToBottom = useCallback(() => {
     setTimeout(() => scrollToBottom(messagesEndRef), 100);
   }, [messagesEndRef]);
+
+  // Streaming management
+  const currentStreamControllerRef = useRef<AbortController | null>(null);
+  const responseStartTimeRef = useRef<number | null>(null);
+
+  const startStreamingResponse = useCallback(
+    (chatId: string, prompt: string) => {
+      // Abort any existing stream
+      if (currentStreamControllerRef.current) {
+        currentStreamControllerRef.current.abort();
+      }
+
+      // Create placeholder AI message
+      const aiMessageId = `ai-${uuidv4()}`;
+      const aiMessage: Message = {
+        id: aiMessageId,
+        content: "",
+        isAi: true,
+        timestamp: new Date().toISOString(),
+        isNewMessage: true,
+      };
+      addMessageToStore(chatId, aiMessage);
+
+      const controller = new AbortController();
+      currentStreamControllerRef.current = controller;
+      responseStartTimeRef.current = performance.now();
+
+      streamChat({
+        chatId,
+        content: prompt,
+        signal: controller.signal,
+        onChunk: delta => {
+          appendToMessageContent(chatId, aiMessageId, delta);
+        },
+        onDone: () => {
+          const end = performance.now();
+          const responseTime = Math.round(end - (responseStartTimeRef.current || end));
+          updateMessageById(chatId, aiMessageId, {
+            isNewMessage: false,
+            responseTime,
+          });
+          dispatch({ type: "COMPLETE_MESSAGE_RESPONSE" });
+          autoScrollToBottom();
+          currentStreamControllerRef.current = null;
+          responseStartTimeRef.current = null;
+        },
+        onError: error => {
+          console.error("Streaming error:", error);
+          // Mark completion to clear thinking state
+          dispatch({ type: "COMPLETE_MESSAGE_RESPONSE" });
+          currentStreamControllerRef.current = null;
+          responseStartTimeRef.current = null;
+        },
+      });
+    },
+    [appendToMessageContent, updateMessageById, addMessageToStore, streamChat, autoScrollToBottom]
+  );
+
+  // Abort any ongoing stream when switching chats or unmounting
+  useEffect(() => {
+    return () => {
+      if (currentStreamControllerRef.current) {
+        currentStreamControllerRef.current.abort();
+        currentStreamControllerRef.current = null;
+      }
+    };
+  }, [currentChatId]);
 
   // Handle prompt submit - simplified flow
   const handlePromptSubmit = useCallback(
@@ -62,11 +131,7 @@ export const useChatContainer = (
         // Add to existing chat
         addMessageToStore(currentChatId, userMessage);
         dispatch({ type: "START_MESSAGE_RESPONSE" });
-        addMessageToAPI({
-          chatId: currentChatId,
-          content: message,
-          isAi: false,
-        });
+        startStreamingResponse(currentChatId, message);
         autoScrollToBottom();
       }
     },
@@ -74,7 +139,7 @@ export const useChatContainer = (
       isNewChat,
       currentChatId,
       addMessageToStore,
-      addMessageToAPI,
+      startStreamingResponse,
       createNewChat,
       autoScrollToBottom,
     ]
@@ -150,11 +215,7 @@ export const useChatContainer = (
 
         addMessageToStore(newChatId, userMessage);
         dispatch({ type: "START_MESSAGE_RESPONSE" });
-        addMessageToAPI({
-          chatId: newChatId,
-          content: localState.pendingUserMessage,
-          isAi: false,
-        });
+        startStreamingResponse(newChatId, localState.pendingUserMessage);
       }
 
       // Notify parent and complete chat creation
@@ -176,7 +237,7 @@ export const useChatContainer = (
     setCurrentChatId,
     setChatTitle,
     addMessageToStore,
-    addMessageToAPI,
+    startStreamingResponse,
     onChatCreated,
     autoScrollToBottom,
   ]);
@@ -196,68 +257,7 @@ export const useChatContainer = (
     dispatch({ type: "TOGGLE_SECONDARY_PANEL", payload: isOpen });
   }, []);
 
-  // Handle AI message responses
-  useEffect(() => {
-    if (messageData?.data && localState.pendingMessageResponse) {
-      const aiMessage: Message = {
-        id: `ai-${uuidv4()}`,
-        content: messageData.data.content || JSON.stringify(messageData.data),
-        isAi: true,
-        timestamp: new Date().toISOString(),
-        isNewMessage: true,
-        responseTime: messageData.responseTime || 0,
-        aiChartData: messageData.data.aiChartData,
-        aiResponseSources: messageData.data.aiResponseSources || null,
-      };
-
-      if (currentChatId) {
-        addMessageToStore(currentChatId, aiMessage);
-
-        // If chart data is present, automatically set it in the secondary panel
-        if (messageData.data.aiChartData) {
-          // Handle both single chart object and array of charts
-          const aiChartData = messageData.data.aiChartData;
-          const charts = Array.isArray(aiChartData) ? aiChartData : [aiChartData];
-
-          if (charts.length > 0) {
-            // Transform all charts to ChartPayload format
-            const chartPayloads: ChartPayload[] = charts.map(aiChart => ({
-              type: aiChart.type,
-              title: aiChart.title,
-              description: aiChart.description,
-              data: aiChart.data.map(point => {
-                // Preserve original keys; ensure the numeric dataKey exists
-                if (point[aiChart.dataKey] !== undefined) return { ...point } as any;
-                // Fallback: if a commonly renamed key exists (e.g. marketCap vs market_share), duplicate it
-                if (aiChart.dataKey === "market_share" && point["marketCap"] !== undefined) {
-                  return { ...point, [aiChart.dataKey]: point["marketCap"] } as any;
-                }
-                return { ...point } as any;
-              }),
-              dataKey: aiChart.dataKey,
-              xAxisKey: aiChart.nameKey,
-              nameKey: aiChart.nameKey,
-            }));
-
-            // Pass all charts to the secondary panel
-            setSecondaryPanelContent({
-              chart: chartPayloads.length === 1 ? chartPayloads[0] : chartPayloads,
-            });
-          }
-        }
-
-        dispatch({ type: "COMPLETE_MESSAGE_RESPONSE" });
-        autoScrollToBottom();
-      }
-    }
-  }, [
-    messageData,
-    localState.pendingMessageResponse,
-    currentChatId,
-    addMessageToStore,
-    setSecondaryPanelContent,
-    autoScrollToBottom,
-  ]);
+  // Note: AI message responses are handled via streaming above
 
   return {
     localState,

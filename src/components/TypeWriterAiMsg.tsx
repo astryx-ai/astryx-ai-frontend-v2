@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlock from "./chat/Codeblock";
-import { processTextForTypewriter, validateTextContent } from "@/helper";
+import { validateTextContent, processTextForTypewriter } from "@/helper";
 import type { ChartPayload } from "@/types/chartType";
 import type { AiChartData, SourceLinkPreview } from "@/types/chatType";
 import { SourceLinkPreview as SourceLinkPreviewComponent } from "./SourceLinkPreview";
@@ -10,58 +10,8 @@ import ActionsButton from "./chat/ActionsButton";
 import ChartPlaceholder from "./ChartPlaceholder";
 import CodePlaceholder from "./CodePlaceholder";
 
-const useTypewriter = (text: string, speed: number = 50, shouldAnimate: boolean = true) => {
-  const [displayText, setDisplayText] = useState<string>("");
-  const [isComplete, setIsComplete] = useState<boolean>(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const currentIndexRef = useRef(0);
-  const hasAnimatedRef = useRef(false);
-
-  useEffect(() => {
-    if (!text) return;
-
-    // If we've already animated this text or shouldn't animate, show full text immediately
-    if (!shouldAnimate || hasAnimatedRef.current) {
-      setDisplayText(text);
-      setIsComplete(true);
-      return;
-    }
-
-    setDisplayText("");
-    setIsComplete(false);
-    currentIndexRef.current = 0;
-
-    // Use helper function to process text
-    const words = processTextForTypewriter(text);
-
-    const typeNextWord = () => {
-      if (currentIndexRef.current < words.length) {
-        const currentToken = words[currentIndexRef.current];
-
-        // Append token verbatim to preserve spaces and newlines
-        if (currentToken && typeof currentToken === "string") {
-          setDisplayText(prev => prev + currentToken);
-        }
-
-        currentIndexRef.current++;
-        timerRef.current = setTimeout(typeNextWord, speed);
-      } else {
-        setIsComplete(true);
-        hasAnimatedRef.current = true; // Mark as animated
-      }
-    };
-
-    timerRef.current = setTimeout(typeNextWord, speed);
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [text, speed, shouldAnimate]);
-
-  return { displayText, isComplete };
-};
+// Deprecated: retained for reference; not used after streaming rewrite
+// const useTypewriter = (...args: any[]) => ({ displayText: "", isComplete: true });
 
 const TypeWriterAiMsg = ({
   content,
@@ -85,7 +35,79 @@ const TypeWriterAiMsg = ({
 }) => {
   // Validate and clean the content before processing
   const validatedContent = validateTextContent(content);
-  const { displayText, isComplete } = useTypewriter(validatedContent, 10, isNewMessage);
+
+  // Typing animation that drains incoming deltas in order
+  const [displayText, setDisplayText] = useState<string>("");
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const queueRef = useRef<string[]>([]);
+  const typingRef = useRef<boolean>(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const prevContentRef = useRef<string>("");
+
+  // For historical or completed messages, render immediately without typing
+  useEffect(() => {
+    if (!isNewMessage) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      queueRef.current = [];
+      typingRef.current = false;
+      setIsTyping(false);
+      setDisplayText(validatedContent || "");
+      prevContentRef.current = validatedContent || "";
+    }
+  }, [validatedContent, isNewMessage]);
+
+  // Reset when message switches from complete to new or when content shrinks (new AI message)
+  useEffect(() => {
+    if (!isNewMessage) return;
+    const incoming = validatedContent || "";
+    const prev = prevContentRef.current;
+
+    // New stream started or content replaced -> reset typed output
+    if (incoming.length < prev.length) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      queueRef.current = [];
+      typingRef.current = false;
+      setIsTyping(false);
+      setDisplayText("");
+      prevContentRef.current = "";
+    }
+  }, [validatedContent, isNewMessage]);
+
+  useEffect(() => {
+    if (!isNewMessage) return;
+    const incoming = validatedContent || "";
+    const prev = prevContentRef.current;
+    const delta = incoming.slice(prev.length);
+
+    if (delta) {
+      // Enqueue tokens from this new chunk
+      queueRef.current.push(...processTextForTypewriter(delta));
+      prevContentRef.current = incoming;
+    }
+
+    const typeNext = () => {
+      if (!queueRef.current.length) {
+        typingRef.current = false;
+        setIsTyping(false);
+        return;
+      }
+      const nextToken = queueRef.current.shift();
+      if (nextToken) setDisplayText(prevText => prevText + nextToken);
+      timerRef.current = setTimeout(typeNext, 10);
+    };
+
+    if (!typingRef.current && queueRef.current.length) {
+      typingRef.current = true;
+      setIsTyping(true);
+      timerRef.current = setTimeout(typeNext, 10);
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [validatedContent, isNewMessage]);
+
+  const isComplete = !isNewMessage && !isTyping;
 
   // Function to format response time
   const formatResponseTime = (time?: number) => {

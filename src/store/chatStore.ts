@@ -10,6 +10,12 @@ interface ChatStore {
   setChatTitle: (title: string) => void;
   addMessageToChat: (chatId: string, message: Message) => void;
   setChatMessages: (chatId: string, messages: Message[]) => void;
+  updateMessageById: (
+    chatId: string,
+    messageId: string,
+    updater: Partial<Message> | ((message: Message) => Message)
+  ) => void;
+  appendToMessageContent: (chatId: string, messageId: string, delta: string) => void;
   initializeChat: (chatId: string) => void;
   clearCurrentChat: () => void;
 }
@@ -45,27 +51,47 @@ export const useChatStore = create<ChatStore>()(
         });
       },
 
-      initializeChat: chatId => {
-        const { chatMessages } = get();
-        if (!chatMessages[chatId]) {
-          set({
-            chatMessages: {
-              ...chatMessages,
-              [chatId]: [],
-            },
-          });
-        }
+  updateMessageById: (chatId, messageId, updater) => {
+    const { chatMessages } = get();
+    const messages = chatMessages[chatId] || [];
+    const updated = messages.map(m => {
+      if (m.id !== messageId) return m;
+      if (typeof updater === "function") {
+        return (updater as (message: Message) => Message)(m);
+      }
+      return { ...m, ...(updater as Partial<Message>) } as Message;
+    });
+    set({
+      chatMessages: {
+        ...chatMessages,
+        [chatId]: updated,
       },
+    });
+  },
 
-      clearCurrentChat: () => set({ currentChatId: null }),
-    }),
-    {
-      name: "chat-store", // unique name for localStorage key
-      partialize: (state) => ({
-        chatMessages: state.chatMessages,
-        currentChatId: state.currentChatId,
-        chatTitle: state.chatTitle,
-      }),
+  appendToMessageContent: (chatId, messageId, delta) => {
+    const { chatMessages } = get();
+    const messages = chatMessages[chatId] || [];
+    const updated = messages.map(m =>
+      m.id === messageId ? { ...m, content: `${m.content}${delta}` } : m
+    );
+    set({
+      chatMessages: {
+        ...chatMessages,
+        [chatId]: updated,
+      },
+    });
+  },
+
+  initializeChat: chatId => {
+    const { chatMessages } = get();
+    if (!chatMessages[chatId]) {
+      set({
+        chatMessages: {
+          ...chatMessages,
+          [chatId]: [],
+        },
+      });
     }
   )
 );

@@ -1,10 +1,8 @@
-import AiMsg from "./AiMsg";
 import UserMsg from "./UserMsg";
 import PromptInput from "../PromptInput";
 import AnimatedStratergy from "../AnimatedStratergy";
 import TypeWriterAiMsg from "../TypeWriterAiMsg";
 import SecondaryPanel from "./SecondaryPanel";
-import { Spinner } from "../ui/spinner";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "../ui/resizable";
 import { useTheme } from "@/lib/useTheme";
 import { ChatState } from "@/enums";
@@ -35,7 +33,6 @@ interface ChatLayoutProps {
   isSecondaryPanelOpen: boolean;
 
   // Optional customization
-  showLoadingSpinner?: boolean;
 }
 
 const ChatLayout = ({
@@ -43,9 +40,7 @@ const ChatLayout = ({
   currentMessages,
   showInitialState,
   isThinking,
-  isLoadingChatMessages = false,
   handlePromptSubmit,
-  showLoadingSpinner = true,
   setSecondaryPanelContent,
   toggleSecondaryPanel,
   secondaryPanelContent,
@@ -129,14 +124,6 @@ const ChatLayout = ({
                 >
                   {!showInitialState && (
                     <div className="flex flex-col gap-4 md:gap-6">
-                      {/* Loading spinner for empty chats */}
-                      {showLoadingSpinner &&
-                        isLoadingChatMessages &&
-                        currentMessages.length === 0 && (
-                          <div className="flex-1 flex items-center justify-center min-h-[200px]">
-                            <Spinner size="large" className="text-black-20 dark:text-white-40" />
-                          </div>
-                        )}
                       {/* Messages */}
                       {currentMessages.map(message => (
                         <div key={message.id}>
@@ -155,11 +142,6 @@ const ChatLayout = ({
                           )}
                         </div>
                       ))}
-
-                      {/* Thinking state */}
-                      {isThinking && currentMessages.length > 0 && (
-                        <AiMsg chatState={ChatState.THINKING} />
-                      )}
 
                       <div ref={messagesEndRef} className="h-1" />
                     </div>
@@ -242,13 +224,6 @@ const ChatLayout = ({
             >
               {!showInitialState && (
                 <div className="flex flex-col gap-4">
-                  {/* Loading spinner for empty chats */}
-                  {showLoadingSpinner && isLoadingChatMessages && currentMessages.length === 0 && (
-                    <div className="flex-1 flex items-center justify-center min-h-[200px]">
-                      <Spinner size="large" className="text-black-20 dark:text-white-40" />
-                    </div>
-                  )}
-
                   {/* Messages */}
                   {currentMessages.map(message => (
                     <div key={message.id}>
@@ -267,11 +242,6 @@ const ChatLayout = ({
                       )}
                     </div>
                   ))}
-
-                  {/* Thinking state */}
-                  {isThinking && currentMessages.length > 0 && (
-                    <AiMsg chatState={ChatState.THINKING} />
-                  )}
 
                   <div ref={messagesEndRef} className="h-1" />
                 </div>

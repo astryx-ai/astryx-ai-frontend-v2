@@ -2,6 +2,10 @@ import axios from "axios";
 import { supabase } from "../lib/supabase";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+const STREAM_API_BASE_URL =
+  import.meta.env.VITE_STREAM_API_BASE_URL ||
+  import.meta.env.VITE_API_STREAM_URL ||
+  "http://127.0.0.1:8080/grpc/messages";
 
 const getAuthToken = async (): Promise<string | null> => {
   try {
@@ -11,6 +15,18 @@ const getAuthToken = async (): Promise<string | null> => {
     return session?.access_token || null;
   } catch (error) {
     console.error("Error getting auth token:", error);
+    return null;
+  }
+};
+
+const getUserId = async (): Promise<string | null> => {
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user?.id || null;
+  } catch (error) {
+    console.error("Error getting user id:", error);
     return null;
   }
 };
@@ -30,3 +46,4 @@ apiClient.interceptors.request.use(async config => {
 });
 
 export { apiClient };
+export { API_BASE_URL, STREAM_API_BASE_URL, getAuthToken, getUserId };

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { apiClient } from "./api";
+import { apiClient, STREAM_API_BASE_URL, getAuthToken, getUserId } from "./api";
 import type { NewChatType, AddNewMessageType } from "../types/chatType";
 import type { ApiResponse } from "../types/apiType";
 import type { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
@@ -136,3 +136,112 @@ export {
   useGetPreviousChatMessages,
   useDeleteChat,
 };
+
+// SSE/streaming utilities
+type StreamChatOptions = {
+  chatId: string;
+  content: string;
+  signal?: AbortSignal;
+  onChunk?: (delta: string) => void;
+  onDone?: (finalText: string) => void;
+  onError?: (error: Error) => void;
+};
+
+const streamChat = async ({
+  chatId,
+  content,
+  signal,
+  onChunk,
+  onDone,
+  onError,
+}: StreamChatOptions) => {
+  try {
+    const [token, userId] = await Promise.all([getAuthToken(), getUserId()]);
+
+    const res = await fetch(STREAM_API_BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "text/event-stream",
+        "Cache-Control": "no-cache",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ query: content, user_id: userId || "anonymous", chat_id: chatId }),
+      signal,
+      keepalive: true,
+    });
+
+    if (!res.ok || !res.body) {
+      throw new Error(`Stream request failed (${res.status})`);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = "";
+    let carry = "";
+    const newline = "\n";
+    let eventLines: string[] = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      carry += chunk;
+
+      // Process line-by-line, assembling events separated by blank lines
+      let lineBreakIndex: number;
+      while ((lineBreakIndex = carry.indexOf(newline)) !== -1) {
+        const line = carry.slice(0, lineBreakIndex);
+        carry = carry.slice(lineBreakIndex + 1);
+
+        const raw = line.replace(/\r$/, "");
+        if (raw.startsWith(":")) {
+          // comment like :ok -> treat as event boundary
+          if (eventLines.length) {
+            eventLines = [];
+          }
+          continue;
+        }
+
+        if (raw.trim() === "") {
+          // Blank line -> dispatch event
+          if (eventLines.length) {
+            const dataLines = eventLines
+              .filter(l => l.startsWith("data:"))
+              .map(l => l.slice(5).trim());
+            const payload = dataLines.join("\n");
+            if (payload) {
+              try {
+                const evt = JSON.parse(payload);
+                const delta = typeof evt.text === "string" ? evt.text : "";
+                if (delta) {
+                  fullText += delta;
+                  onChunk?.(delta);
+                }
+                if (evt.end) {
+                  onDone?.(fullText);
+                  return;
+                }
+              } catch {
+                // ignore malformed event
+              }
+            }
+            eventLines = [];
+          }
+          continue;
+        }
+
+        // Accumulate event lines
+        eventLines.push(raw);
+      }
+
+      // Keep carry for partial line; defer processing until newline arrives
+    }
+
+    onDone?.(fullText);
+  } catch (err: any) {
+    onError?.(err instanceof Error ? err : new Error(String(err)));
+  }
+};
+
+export const useStreamChat = () => ({ streamChat });
