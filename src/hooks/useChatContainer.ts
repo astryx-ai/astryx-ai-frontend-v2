@@ -152,7 +152,7 @@ export const useChatContainer = (
     } else if (currentChatId) {
       // Clear secondary panel content when switching chats
       dispatch({ type: "CLEAR_SECONDARY_PANEL_CONTENT" });
-      
+
       if (currentMessages.length > 0) {
         dispatch({ type: "SET_CHAT_STATE", payload: ChatState.CHATTING });
       } else {

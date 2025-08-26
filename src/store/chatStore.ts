@@ -28,7 +28,6 @@ export const useChatStore = create<ChatStore>()(
       chatTitle: null,
 
       setChatTitle: (title: string) => set({ chatTitle: title }),
-      getChatTitle: () => get().chatTitle,
       setCurrentChatId: id => set({ currentChatId: id }),
 
       addMessageToChat: (chatId, message) => {
@@ -51,47 +50,68 @@ export const useChatStore = create<ChatStore>()(
         });
       },
 
-  updateMessageById: (chatId, messageId, updater) => {
-    const { chatMessages } = get();
-    const messages = chatMessages[chatId] || [];
-    const updated = messages.map(m => {
-      if (m.id !== messageId) return m;
-      if (typeof updater === "function") {
-        return (updater as (message: Message) => Message)(m);
-      }
-      return { ...m, ...(updater as Partial<Message>) } as Message;
-    });
-    set({
-      chatMessages: {
-        ...chatMessages,
-        [chatId]: updated,
+      updateMessageById: (chatId, messageId, updater) => {
+        const { chatMessages } = get();
+        const messages = chatMessages[chatId] || [];
+        const updated = messages.map(m => {
+          if (m.id !== messageId) return m;
+          if (typeof updater === "function") {
+            return (updater as (message: Message) => Message)(m);
+          }
+          return { ...m, ...(updater as Partial<Message>) } as Message;
+        });
+        set({
+          chatMessages: {
+            ...chatMessages,
+            [chatId]: updated,
+          },
+        });
       },
-    });
-  },
 
-  appendToMessageContent: (chatId, messageId, delta) => {
-    const { chatMessages } = get();
-    const messages = chatMessages[chatId] || [];
-    const updated = messages.map(m =>
-      m.id === messageId ? { ...m, content: `${m.content}${delta}` } : m
-    );
-    set({
-      chatMessages: {
-        ...chatMessages,
-        [chatId]: updated,
+      appendToMessageContent: (chatId, messageId, delta) => {
+        const { chatMessages } = get();
+        const messages = chatMessages[chatId] || [];
+        const updated = messages.map(m =>
+          m.id === messageId ? { ...m, content: `${m.content}${delta}` } : m
+        );
+        set({
+          chatMessages: {
+            ...chatMessages,
+            [chatId]: updated,
+          },
+        });
       },
-    });
-  },
 
-  initializeChat: chatId => {
-    const { chatMessages } = get();
-    if (!chatMessages[chatId]) {
-      set({
-        chatMessages: {
-          ...chatMessages,
-          [chatId]: [],
-        },
-      });
-    }
+      initializeChat: chatId => {
+        const { chatMessages } = get();
+        if (!chatMessages[chatId]) {
+          set({
+            chatMessages: {
+              ...chatMessages,
+              [chatId]: [],
+            },
+          });
+        }
+      },
+
+      clearCurrentChat: () => {
+        const { currentChatId, chatMessages } = get();
+        if (currentChatId && chatMessages[currentChatId]) {
+          const remaining = { ...chatMessages };
+          delete remaining[currentChatId];
+          set({
+            currentChatId: null,
+            chatTitle: null,
+            chatMessages: remaining,
+          });
+        } else {
+          set({
+            currentChatId: null,
+            chatTitle: null,
+          });
+        }
+      },
+    }),
+    { name: "chat-store" }
   )
 );
